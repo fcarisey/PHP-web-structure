@@ -1,0 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+    list-style-type: none;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif; /* Default font-family */
+}
