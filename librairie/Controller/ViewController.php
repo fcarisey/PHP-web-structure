@@ -5,7 +5,7 @@ namespace Controller;
 class ViewController{
     public static function process(){
         $page = (isset($_GET['page'])) ? $_GET['page'] : 'home';
-        self::userPersmission($page);
+        self::userPermission($page);
 
         if (!isset($_POST['ajax']))
             require_once("librairie/View/template/header.php");
@@ -18,7 +18,7 @@ class ViewController{
             require_once("librairie/View/template/footer.php");
     }
 
-    public static function userPersmission($page){
+    public static function userPermission($page){
         $basic = ['home'];
         
         $allow = false;
