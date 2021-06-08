@@ -21,6 +21,13 @@ class ControllerController{
     public static function DELETE(array $where, $limit = null){
         \Database::request(\Database::ACTION_DELETE, static::$table_name, null, null, null, $where, $limit);
     }
+
+    /** 
+     * @return null|mixed Return value if exist or null if not exist
+     */
+    public static function keyExist(string|int $key, array $array){
+        return (key_exists($key, $array)) ? $array[$key] : null;
+    }
 }
 
 ?>

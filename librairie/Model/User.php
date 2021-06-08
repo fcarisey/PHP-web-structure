@@ -76,13 +76,13 @@ class User{
         $objs = [];
 
         foreach ($data as $d) {
-            $id = \Controller\ViewController::keyExist('id', $d);
-            $username = \Controller\ViewController::keyExist('username', $d);
-            $first_name = \Controller\ViewController::keyExist('first_name', $d);
-            $last_name = \Controller\ViewController::keyExist('last_name', $d);
-            $mail = \Controller\ViewController::keyExist('mail', $d);
-            $tel = \Controller\ViewController::keyExist('tel', $d);
-            $password = \Controller\ViewController::keyExist('password', $d);
+            $id = \Controller\ControllerController::keyExist('id', $d);
+            $username = \Controller\ControllerController::keyExist('username', $d);
+            $first_name = \Controller\ControllerController::keyExist('first_name', $d);
+            $last_name = \Controller\ControllerController::keyExist('last_name', $d);
+            $mail = \Controller\ControllerController::keyExist('mail', $d);
+            $tel = \Controller\ControllerController::keyExist('tel', $d);
+            $password = \Controller\ControllerController::keyExist('password', $d);
 
             $user = new self($id, $username, $first_name, $last_name, $mail, $tel, $password);
             array_push($objs, $user);
