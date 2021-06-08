@@ -4,17 +4,18 @@ namespace Model;
 
 class User{
 
-    private $id, $username, $first_name, $last_name, $mail, $tel, $password;
+    private $id, $username, $first_name, $last_name, $mail, $tel, $password, $role;
     public static $password_min_length = 8, $username_max_length = 12;
 
-    public function __construct($id = null, $username = null, $first_name = null, $last_name = null, $mail = null, $tel = null, $password = null){
+    public function __construct($id = null, $username = null, $first_name = null, $last_name = null, $mail = null, $tel = null, $password = null, $role = null){
         $this->setId($id)
              ->setUsername($username)
              ->setFirstName($first_name)
              ->setLastName($last_name)
              ->setMail($mail)
              ->setTel($tel)
-             ->setPassword($password);
+             ->setPassword($password)
+             ->setRole($role);
     }
 
     public function setId($id){
@@ -73,6 +74,14 @@ class User{
         return $this->password;
     }
 
+    public function setRole($role){
+        $this->role = $role;
+        return $this;
+    }
+    public function getRole(){
+        return $this->role;
+    }
+
     public static function format($data){
         $objs = [];
 
@@ -84,8 +93,9 @@ class User{
             $mail = \Controller\ControllerController::keyExist('mail', $d);
             $tel = \Controller\ControllerController::keyExist('tel', $d);
             $password = \Controller\ControllerController::keyExist('password', $d);
+            $role = \Controller\ControllerController::keyExist('role', $d);
 
-            $user = new self($id, $username, $first_name, $last_name, $mail, $tel, $password);
+            $user = new self($id, $username, $first_name, $last_name, $mail, $tel, $password, $role);
             array_push($objs, $user);
         }
 

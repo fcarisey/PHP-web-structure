@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use Model\User;
-
 class UserController extends ControllerController{
     protected static $table_name = \Database::$tables['user'];
     protected static $model_class = \Model\User::class;
@@ -50,6 +48,7 @@ class UserController extends ControllerController{
                     $_SESSION['mail'] = $user->getMail();
                     $_SESSION['tel'] = $user->getTel();
                     $_SESSION['password'] = $user->getPassword();
+                    $_SESSION['role'] = $user->getRole();
         
                     return true;
                 }else
@@ -170,7 +169,7 @@ class UserController extends ControllerController{
         }
 
         if ($username_parse && $first_name_parse && $last_name_parse && $mail_parse && $tel_parse && $password_parse && $conf_password_parse){
-            $value = [];
+            $value = ['role' => "customer"];
             if ($username_parse)
                 $value['username'] = $username;
             if ($first_name_parse)
