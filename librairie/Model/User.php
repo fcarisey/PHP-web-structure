@@ -5,6 +5,7 @@ namespace Model;
 class User{
 
     private $id, $username, $first_name, $last_name, $mail, $tel, $password;
+    public static $password_min_length = 8, $username_max_length = 12;
 
     public function __construct($id = null, $username = null, $first_name = null, $last_name = null, $mail = null, $tel = null, $password = null){
         $this->setId($id)
