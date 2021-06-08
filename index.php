@@ -27,7 +27,7 @@ require_once("librairie/autoloader.php");
 \Database::$user = "administrateur";
 \Database::$password = "6bub94z4";
 \Database::$tables = [
-    "table" => "table"
+    "user" => "user"
 ];
 
 if (DEBUG_MAIL)
