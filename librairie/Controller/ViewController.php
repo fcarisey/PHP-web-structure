@@ -36,6 +36,13 @@ class ViewController{
             die;
         }
     }
+
+    /** 
+     * @return null|mixed Return value if exist or null if not exist
+     */
+    public static function keyExist(string|int $key, array $array){
+        return (key_exists($key, $array)) ? $array[$key] : null;
+    }
 }
 
 ?>
