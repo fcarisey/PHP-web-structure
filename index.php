@@ -1,7 +1,12 @@
 <?php
 
+use PHPMailer\PHPMailer\SMTP;
+
+require_once("module/phpmailer/vendor/autoload.php");
+
 const DEBUG = true;
 const DEBUG_SQL = false;
+const DEBUG_MAIL = false;
 
 session_name("SUID");
 session_set_cookie_params([
@@ -24,6 +29,9 @@ require_once("librairie/autoloader.php");
 \Database::$tables = [
     "table" => "table"
 ];
+
+if (DEBUG_MAIL)
+    \Controller\MailController::$smtp_debug = SMTP::DEBUG_SERVER;
 
 \Controller\ViewController::process();
 
