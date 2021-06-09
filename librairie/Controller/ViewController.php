@@ -23,9 +23,7 @@ class ViewController{
         
         $allow = false;
         if (!in_array($page, $basic)){
-            if (isset($_SESSION['id'])){
-                ;
-            }
+            if (isset($_SESSION['id']));
         }else
             $allow = true;
 

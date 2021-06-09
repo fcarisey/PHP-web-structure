@@ -3,7 +3,6 @@
 namespace Model;
 
 class User{
-
     private $id, $username, $first_name, $last_name, $mail, $tel, $password, $role;
     public static $password_min_length = 8, $username_max_length = 12;
 

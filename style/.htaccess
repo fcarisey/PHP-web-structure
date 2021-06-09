@@ -1,0 +1,7 @@
+Order allow,deny
+Deny From All
+
+<FilesMatch "\.(css)$">
+    Order allow,deny
+    Allow From All
+</FilesMatch>

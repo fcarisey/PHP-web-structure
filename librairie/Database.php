@@ -37,7 +37,6 @@ class Database{
         
         $where_string = null;
         $where_execute = [];
-
         if ($where != null){
             $where_string = "WHERE";
             foreach ($where as $key => $value) {
@@ -135,15 +134,12 @@ class Database{
             }
         }
 
-        if (DEBUG_SQL){
+        if (DEBUG_SQL)
             var_dump($SQL);
-        }
 
         $req = self::getPDO()->prepare($SQL);
-        
-        if ($req->execute($execute)){
+        if ($req->execute($execute))
             return $req->fetchAll();
-        }
         return false;
     }
 }

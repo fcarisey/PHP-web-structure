@@ -8,14 +8,6 @@ const DEBUG = true;
 const DEBUG_SQL = false;
 const DEBUG_MAIL = false;
 
-session_name("SUID");
-session_set_cookie_params([
-    'httponly' => true,
-    'secure' => true,
-    'samesite' => "strict"
-]);
-session_start();
-
 if (DEBUG)
     ini_set('display_errors', E_ALL);
 if (DEBUG_MAIL)
@@ -31,6 +23,14 @@ require_once("librairie/autoloader.php");
 const DATABASE_TABLE = [
     'user' => "user"
 ];
+
+session_name("SUID");
+session_set_cookie_params([
+    'httponly' => true,
+    'secure' => true,
+    'samesite' => "strict"
+]);
+session_start();
 
 \Controller\ViewController::process();
 
