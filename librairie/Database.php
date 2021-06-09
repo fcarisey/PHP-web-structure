@@ -21,7 +21,6 @@ class Database{
     public static string $dbname = "";
     public static string $user = "";
     public static string $password = "";
-    public static array $tables = [];
 
     static function getPDO(){
         static $instance = null;
@@ -31,9 +30,9 @@ class Database{
     }
     
     static function request(int $action, string $table, array $select = null, array $value = null, array $set = null, array $where = null, string $limit = null, array $order_by = null){
-        if (static::$database_type == \Database::TYPE_PGSQL)
+        if (static::$database_type == self::TYPE_PGSQL)
             $tq = '"';
-        else if (static::$database_type == \Database::TYPE_MYSQL)
+        else if (static::$database_type == self::TYPE_MYSQL)
             $tq = '`';
         
         $where_string = null;

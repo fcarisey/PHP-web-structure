@@ -3,7 +3,7 @@
 namespace Controller;
 
 class UserController extends ControllerController{
-    protected static $table_name = \Database::$tables['user'];
+    protected static $table_name = DATABASE_TABLE['user'];
     protected static $model_class = \Model\User::class;
 
     public static function login($mail = null, $password = null){

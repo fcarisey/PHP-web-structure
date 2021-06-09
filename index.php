@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\SMTP;
 require_once("module/phpmailer/vendor/autoload.php");
 
 const DEBUG = true;
-const DEBUG_SQL = false;
+const DEBUG_SQL = true;
 const DEBUG_MAIL = false;
 
 session_name("SUID");
@@ -28,19 +28,19 @@ require_once("librairie/autoloader.php");
 \Database::$dbname = "test";
 \Database::$user = "root";
 \Database::$password = "";
-\Database::$tables = [
+const DATABASE_TABLE = [
     'user' => "user"
 ];
 
-// \Controller\UserController::INSERT([
-//     'username' => "venntus17",
-//     'first_name' => "Frédéric",
-//     'last_name' => "carisey",
-//     'mail' => "venntus17@gmail.com",
-//     'tel' => "07 79 55 34 66",
-//     'password' => "DEFAULT",
-//     'role' => "customer"
-// ]);
+\Controller\UserController::INSERT([
+    'username' => "venntus17",
+    'first_name' => "Frédéric",
+    'last_name' => "carisey",
+    'mail' => "venntus17@gmail.com",
+    'tel' => "07 79 55 34 66",
+    'password' => "DEFAULT",
+    'role' => "customer"
+]);
 
 \Controller\ViewController::process();
 

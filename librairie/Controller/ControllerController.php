@@ -3,8 +3,8 @@
 namespace Controller;
 
 class ControllerController{
-    protected static $table_name = null;
-    protected static $model_class = null;
+    protected static $table_name;
+    protected static $model_class;
 
     public static function INSERT(array $value){
         \Database::request(\Database::ACTION_INSERT, static::$table_name, null, $value);
