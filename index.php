@@ -32,15 +32,15 @@ require_once("librairie/autoloader.php");
     'user' => "user"
 ];
 
-\Controller\UserController::INSERT([
-    'username' => "venntus17",
-    'first_name' => "Frédéric",
-    'last_name' => "carisey",
-    'mail' => "venntus17@gmail.com",
-    'tel' => "07 79 55 34 66",
-    'password' => "DEFAULT",
-    'role' => "customer"
-]);
+// \Controller\UserController::INSERT([
+//     'username' => "venntus17",
+//     'first_name' => "Frédéric",
+//     'last_name' => "carisey",
+//     'mail' => "venntus17@gmail.com",
+//     'tel' => "07 79 55 34 66",
+//     'password' => "DEFAULT",
+//     'role' => "customer"
+// ]);
 
 \Controller\ViewController::process();
 
