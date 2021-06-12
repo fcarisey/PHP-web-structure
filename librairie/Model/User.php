@@ -98,7 +98,7 @@ class User{
             array_push($objs, $user);
         }
 
-        return ($objs == []) ? null : $objs;
+        return (empty($objs)) ? null : $objs;
     }
 }
 
