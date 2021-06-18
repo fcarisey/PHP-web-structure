@@ -84,8 +84,10 @@ class UserController extends ControllerController{
         $err = null;
 
         // Username
+        $username_set = false;
         $username_parse = true;
         if ($username !== null){
+            $username_set = true;
             $username_parse = false;
             if (!empty($username)){
                 if (strlen($username) <= \Model\User::$username_max_length){
@@ -97,8 +99,10 @@ class UserController extends ControllerController{
         }
 
         // First name
+        $first_name_set = false;
         $first_name_parse = true;
         if ($first_name !== null){
+            $first_name_set = true;
             $first_name_parse = false;
             if (!empty($first_name)){
                 $first_name_parse = true;
@@ -107,8 +111,10 @@ class UserController extends ControllerController{
         }
 
         // Last name
+        $last_name_set = false;
         $last_name_parse = true;
         if ($last_name !== null){
+            $last_name_set = true;
             $last_name_parse = false;
             if (!empty($last_name)){
                 $last_name_parse = true;
@@ -117,12 +123,17 @@ class UserController extends ControllerController{
         }
 
         // Mail
+        $mail_set = false;
         $mail_parse = true;
         if ($mail !== null){
+            $mail_set = true;
             $mail_parse = false;
             if (!empty($mail)){
                 if (filter_var($mail, FILTER_VALIDATE_EMAIL)){
-                    $mail_parse = true;
+                    if (\Controller\UserController::SELECT(['id'], ['mail'=>$mail], 1) == null)
+                        $mail_parse = true;
+                    else
+                        $err['mail'] = "Cette adresse mail existe déjà !";
                 }else
                     $err['mail'] = "L'adresse mail n'est pas valide exemple: john@doe@exemple.com";
             }else
@@ -130,8 +141,10 @@ class UserController extends ControllerController{
         }
 
         // Tel
+        $tel_set = false;
         $tel_parse = true;
         if ($tel !== null){
+            $tel_set = true;
             $tel_parse = false;
             if (!empty($tel)){
                 $tel_parse = true;
@@ -140,12 +153,14 @@ class UserController extends ControllerController{
         }
 
         // Password
+        $password_set = false;
         $password_parse = true;
         if ($password !== null){
+            $password_set = true;
             $password_parse = false;
             if (!empty($password)){
                 if (strlen($password) >= \Model\User::$password_min_length){
-                    $password_parse = true;     
+                    $password_parse = true;
                 }else
                     $err['password'] = "Le mot de passe doit contenit au moins ".\Model\User::$password_min_length." caractères !";
             }else
@@ -153,7 +168,6 @@ class UserController extends ControllerController{
         }
 
         // Conf password
-        $conf_password_parse = true;
         if ($conf_password !== null){
             $conf_password_parse = false;
             if (!empty($conf_password)){
@@ -168,19 +182,19 @@ class UserController extends ControllerController{
                 $err['conf_password'] = "Ce champ est obligatoire !";
         }
 
-        if ($username_parse && $first_name_parse && $last_name_parse && $mail_parse && $tel_parse && $password_parse && $conf_password_parse){
+        if ($username_parse && $first_name_parse && $last_name_parse && $mail_parse && $tel_parse && $password_parse && $conf_password_parse && $err === null){
             $value = ['role' => "customer"];
-            if ($username_parse)
+            if ($username_set)
                 $value['username'] = $username;
-            if ($first_name_parse)
+            if ($first_name_set)
                 $value['first_name'] = $first_name;
-            if ($last_name_parse)
+            if ($last_name_set)
                 $value['last_name'] = $last_name;
-            if ($mail_parse)
+            if ($mail_set)
                 $value['mail'] = $mail;
-            if ($tel_parse)
+            if ($tel_set)
                 $value['tel'] = $tel;
-            if ($password_parse)
+            if ($password_set)
                 $value['password'] = str_replace('$2y$10$', '', password_hash($password, PASSWORD_DEFAULT));
             
             self::INSERT($value);
@@ -190,6 +204,11 @@ class UserController extends ControllerController{
         }
 
         return $err;
+    }
+
+    public static function logout(){
+        session_destroy();
+        \Controller\ViewController::redirect("/");
     }
 }
 

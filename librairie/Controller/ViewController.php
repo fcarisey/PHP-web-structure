@@ -34,6 +34,11 @@ class ViewController{
             die;
         }
     }
+
+    public static function redirect($location){
+        header("Location: $location", true);
+        die;
+    }
 }
 
 ?>
