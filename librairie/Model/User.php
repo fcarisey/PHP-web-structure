@@ -72,19 +72,21 @@
 
         public static function format($data){
         $objs = [];
-        foreach($data as $d){
-        
-            $id = \Controller\ControllerController::keyExist('id', $d);
-            $username = \Controller\ControllerController::keyExist('username', $d);
-            $first_name = \Controller\ControllerController::keyExist('first_name', $d);
-            $last_name = \Controller\ControllerController::keyExist('last_name', $d);
-            $mail = \Controller\ControllerController::keyExist('mail', $d);
-            $tel = \Controller\ControllerController::keyExist('tel', $d);
-            $password = \Controller\ControllerController::keyExist('password', $d);
-            $role = \Controller\ControllerController::keyExist('role', $d);
-            $user = new self($id,$username,$first_name,$last_name,$mail,$tel,$password,$role);
-            array_push($objs, $user);
+        if ($data != NULL){
+            foreach($data as $d){
+                $id = \Controller\ControllerController::keyExist('id', $d);
+                $username = \Controller\ControllerController::keyExist('username', $d);
+                $first_name = \Controller\ControllerController::keyExist('first_name', $d);
+                $last_name = \Controller\ControllerController::keyExist('last_name', $d);
+                $mail = \Controller\ControllerController::keyExist('mail', $d);
+                $tel = \Controller\ControllerController::keyExist('tel', $d);
+                $password = \Controller\ControllerController::keyExist('password', $d);
+                $role = \Controller\ControllerController::keyExist('role', $d);
+                $user = new self($id,$username,$first_name,$last_name,$mail,$tel,$password,$role);
+                array_push($objs, $user);
+            }
         }
+        
         return (empty($objs)) ? null : $objs; 
     }
-    }
+}

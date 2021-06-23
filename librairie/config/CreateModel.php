@@ -21,6 +21,8 @@ function createModelFile(string $model_name, array $element, $database_name){
     $mutator = "";
     $format = "public static function format(\$data){
         \$objs = [];
+        if (\$data != NULL)
+        {
         foreach(\$data as \$d){
         ";
     $format_new = "";
@@ -69,6 +71,7 @@ function createModelFile(string $model_name, array $element, $database_name){
             \$$a = new self($format_new);
             array_push(\$objs, \$$a);
         }
+        }
         return (empty(\$objs)) ? null : \$objs; 
     }";
 
@@ -92,7 +95,7 @@ function createControllerFile(string $model_name, $database_name){
     fwrite($file, "<?php
     namespace Controller;
     Class {$model_name}Controller extends ControllerController{
-        protected static \$table_name = \"$a\";
+        protected static \$table_name = \"$model_name\";
         protected static \$model_class = \Model\\$model_name::class;
         protected static \$database = $database_name;
     }");

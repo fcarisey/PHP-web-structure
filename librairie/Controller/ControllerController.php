@@ -16,7 +16,7 @@ class ControllerController{
     }
 
     public static function SELECT($select = \Database::SELECT_ALL, $where = null, $limit = null, $order_by = null){
-        return static::$model_class::format(\Database::$db_array[static::$database]->request(\Database::ACTION_SELECT, static::$table_name, $select, null, null, $where, $limit, $order_by));
+        return static::$model_class::format(self::keyExist(static::$database, \Database::$db_array)->request(\Database::ACTION_SELECT, static::$table_name, $select, null, null, $where, $limit, $order_by));
     }
 
     public static function DELETE(array $where, $limit = null){
