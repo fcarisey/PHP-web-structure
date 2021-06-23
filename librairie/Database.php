@@ -13,26 +13,79 @@ class Database{
 
     public const SELECT_ALL = ['*'];
 
-    public static string $database_type = "";
+    private string $database_type = "";
     /*** Default value = "127.0.0.1"*/
-    public static string $host = "127.0.0.1";
+    private string $host = "127.0.0.1";
     /*** Default value = 0*/
-    public static int $port = 0;
-    public static string $dbname = "";
-    public static string $user = "";
-    public static string $password = "";
+    private int $port = 0;
+    private string $dbname = "";
+    private string $user = "";
+    private string $password = "";
 
-    static function getPDO(){
-        static $instance = null;
-        if ($instance == null)
-            $instance = new \PDO(static::$database_type.":host=".static::$host.";port=".static::$port.";dbname=".static::$dbname.";user=".static::$user.";password=".static::$password);
-        return $instance;
+    private $instance = null;
+
+    public function __construct($database_type, $host, $port, $dbname, $user, $password){
+        $this->setDatabaseType($database_type)->setHost($host)->setPort($port)->setDBName($dbname)->setUser($user)->setPassword($password);
+    }
+
+    public function setDatabaseType($database_type){
+        $this->database_type = $database_type;
+        return $this;
+    }
+    public function getDatabaseType(){
+        return $this->database_type;
+    }
+
+    public function setHost($host){
+        $this->host = $host;
+        return $this;
+    }
+    public function getHost(){
+        return $this->host;
+    }
+
+    public function setPort($port){
+        $this->port = $port;
+        return $this;
+    }
+    public function getPort(){
+        return $this->port;
+    }
+
+    public function setDBName($dbname){
+        $this->dbname = $dbname;
+        return $this;
+    }
+    public function getDBName(){
+        return $this->dbname;
+    }
+
+    public function setUser($user){
+        $this->user = $user;
+        return $this;
+    }
+    public function getUser(){
+        return $this->user;
+    }
+
+    public function setPassword($password){
+        $this->password = $password;
+        return $this;
+    }
+    public function getPassword(){
+        return $this->password;
+    }
+
+    function getPDO(){
+        if ($this->instance == null)
+            $this->instance = new \PDO($this->database_type.":host=".$this->host.";port=".$this->port.";dbname=".$this->dbname.";user=".$this->user.";password=".$this->password);
+        return $this->instance;
     }
     
-    static function request(int $action, string $table, array $select = null, array $value = null, array $set = null, array $where = null, string $limit = null, array $order_by = null){
-        if (static::$database_type == self::TYPE_PGSQL)
+    function request(int $action, string $table, array $select = null, array $value = null, array $set = null, array $where = null, string $limit = null, array $order_by = null){
+        if ($this->database_type == self::TYPE_PGSQL)
             $tq = '"';
-        else if (static::$database_type == self::TYPE_MYSQL)
+        else if ($this->database_type == self::TYPE_MYSQL)
             $tq = '`';
         
         $where_string = null;
@@ -137,7 +190,7 @@ class Database{
         if (DEBUG_SQL)
             var_dump($SQL);
 
-        $req = self::getPDO()->prepare($SQL);
+        $req = $this->getPDO()->prepare($SQL);
         if ($req->execute($execute))
             return $req->fetchAll();
         return false;

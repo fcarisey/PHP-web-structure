@@ -8,22 +8,6 @@ const DEBUG = true;
 const DEBUG_SQL = false;
 const DEBUG_MAIL = false;
 
-if (DEBUG)
-    ini_set('display_errors', E_ALL);
-if (DEBUG_MAIL)
-    \Controller\MailController::$smtp_debug = SMTP::DEBUG_SERVER;
-
-require_once("librairie/autoloader.php");
-
-\Database::$database_type = \Database::TYPE_MYSQL;
-\Database::$port = 3306;
-\Database::$dbname = "test";
-\Database::$user = "root";
-\Database::$password = "";
-const DATABASE_TABLE = [
-    'user' => "user"
-];
-
 session_name("SUID");
 session_set_cookie_params([
     'httponly' => true,
@@ -31,6 +15,32 @@ session_set_cookie_params([
     'samesite' => "strict"
 ]);
 session_start();
+
+if (DEBUG)
+    ini_set('display_errors', E_ALL);
+if (DEBUG_MAIL)
+    \Controller\MailController::$smtp_debug = SMTP::DEBUG_SERVER;
+
+require_once("librairie/autoloader.php");
+
+function readDatabaseFile(){
+    $file = fopen("librairie/config/database.json", "r");
+    $res = fread($file, 4000);
+    fclose($file);
+
+    return json_decode(trim($res), true);
+}
+
+$databases = readDatabaseFile();
+
+$db_array = [];
+foreach($databases as $db){
+    $db_array[$db['name']] = new \Database($db['type'], $db['host'], $db['port'], $db['database'], $db['user'], $db['password']);
+}
+
+//\Database::$db_array = $db_array;
+
+define("DB_ARRAY", $db_array);
 
 \Controller\ViewController::process();
 
