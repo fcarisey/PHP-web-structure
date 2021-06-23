@@ -38,9 +38,7 @@ foreach($databases as $db){
     $db_array[$db['name']] = new \Database($db['type'], $db['host'], $db['port'], $db['database'], $db['user'], $db['password']);
 }
 
-//\Database::$db_array = $db_array;
-
-define("DB_ARRAY", $db_array);
+\Database::$db_array = $db_array;
 
 \Controller\ViewController::process();
 

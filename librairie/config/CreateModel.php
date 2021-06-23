@@ -94,7 +94,7 @@ function createControllerFile(string $model_name, $database_name){
     Class {$model_name}Controller extends ControllerController{
         protected static \$table_name = \"$a\";
         protected static \$model_class = \Model\\$model_name::class;
-        protected static \$database = \DB_ARRAY['$database_name'];
+        protected static \$database = $database_name;
     }");
     fclose($file);
 }

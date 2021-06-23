@@ -22,6 +22,8 @@ class Database{
     private string $user = "";
     private string $password = "";
 
+    public static $db_array = [];
+
     private $instance = null;
 
     public function __construct($database_type, $host, $port, $dbname, $user, $password){

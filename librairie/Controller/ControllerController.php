@@ -8,19 +8,19 @@ class ControllerController{
     protected static $database;
 
     public static function INSERT(array $value){
-        static::$database->request(\Database::ACTION_INSERT, static::$table_name, null, $value);
+        \Database::$db_array[static::$database]->request(\Database::ACTION_INSERT, static::$table_name, null, $value);
     }
 
     public static function UPDATE(array $set, $where, $limit){
-        static::$database->request(\Database::ACTION_UPDATE, static::$table_name, null, null, $set, $where, $limit);
+        \Database::$db_array[static::$database]->request(\Database::ACTION_UPDATE, static::$table_name, null, null, $set, $where, $limit);
     }
 
     public static function SELECT($select = \Database::SELECT_ALL, $where = null, $limit = null, $order_by = null){
-        return static::$model_class::format(static::$database->request(\Database::ACTION_SELECT, static::$table_name, $select, null, null, $where, $limit, $order_by));
+        return static::$model_class::format(\Database::$db_array[static::$database]->request(\Database::ACTION_SELECT, static::$table_name, $select, null, null, $where, $limit, $order_by));
     }
 
     public static function DELETE(array $where, $limit = null){
-        static::$database->request(\Database::ACTION_DELETE, static::$table_name, null, null, null, $where, $limit);
+        \Database::$db_array[static::$database]->request(\Database::ACTION_DELETE, static::$table_name, null, null, null, $where, $limit);
     }
 
     /** 
