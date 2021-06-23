@@ -197,4 +197,8 @@ class Database{
             return $req->fetchAll();
         return false;
     }
+
+    static function TryPDO(self $db){
+        return $db->getPDO();
+    }
 }

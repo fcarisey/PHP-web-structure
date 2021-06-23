@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\SMTP;
 
 require_once("module/phpmailer/vendor/autoload.php");
 
-const DEBUG = true;
+const DEBUG = false;
 const DEBUG_SQL = false;
 const DEBUG_MAIL = false;
 
@@ -36,6 +36,18 @@ $databases = readDatabaseFile();
 $db_array = [];
 foreach($databases as $db){
     $db_array[$db['name']] = new \Database($db['type'], $db['host'], $db['port'], $db['database'], $db['user'], $db['password']);
+
+    
+}
+
+foreach($db_array as $key => $db){
+    try{
+        \Database::TryPDO($db);
+    }catch (PDOException $e){
+        $bdd_name = $key;
+        require_once("error/BddConnection.php");
+        die;
+    }
 }
 
 \Database::$db_array = $db_array;
