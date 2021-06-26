@@ -89,7 +89,7 @@ class Database{
             $tq = '"';
         else if ($this->database_type == self::TYPE_MYSQL)
             $tq = '`';
-        
+
         $where_string = null;
         $where_execute = [];
         if ($where != null){

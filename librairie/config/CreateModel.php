@@ -148,12 +148,21 @@ function createDatabase(string $model_name, array $var_ele, string $database_nam
 
     if ($database->getDatabaseType() == "mysql"){
         $SQL = "CREATE TABLE $model_name (";
+        $primary_key = null;
         foreach($var_ele as $key => $value){
             if ($SQL !== "CREATE TABLE $model_name (")
                 $SQL .= ", ";
             $value = strtoupper($value);
-            $SQL .= "$tq$key$tq $value NOT NULL";
+
+            if ($value == "SERIAL"){
+                $SQL .= "$tq$key$tq INT NOT NULL AUTO_INCREMENT";
+                $primary_key = $key;
+            }
+            else
+                $SQL .= "$tq$key$tq $value NOT NULL";
         }
+        if ($primary_key != "SERAIL")
+            $SQL .= ", PRIMARY KEY(`$primary_key`)";
         $SQL .= ") ENGINE = InnoDB;";
     }else if ($database->getDatabaseType() == "pgsql"){
         $SQL = "CREATE TABLE public.\"$model_name\" (";
@@ -194,7 +203,7 @@ while($var != "-1"){
     if ($var != "")
         $var_ele[$var] = $type;
     $var = getUserInput("Nom de la table(-1 pour arrêter): ");
-    $type = getUserInput("Type de donnée (int, text)");
+    $type = getUserInput("Type de donnée (int, text, serial)");
 }
 
 if (createDatabase($model_name, $var_ele, $database_name))
