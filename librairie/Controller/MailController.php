@@ -22,34 +22,60 @@ class MailController{
     /** Default value: 465 */
     public static int $port = 465;
 
-
     public static function sendMailTo(string $mail_to, string $subject, string $body, string $alt_body){
-        $mail = new PHPMailer(true);
+        $err = [];
 
-        try {
-            $mail->SMTPDebug = self::$smtp_debug;
-            if (self::$isSMTP)
-                $mail->isSMTP();
-            $mail->Host = self::$host;
-            $mail->SMTPAuth = true;
-            $mail->Username = self::$username;
-            $mail->Password = self::$password;
-            $mail->SMTPSecure = self::$SMTP_secure;
-            $mail->Port = self::$port;
+        $mail_to_parse = false;
+        if (!empty($mail_to)){
+            if (filter_var($mail_to, FILTER_VALIDATE_EMAIL)){
+                $mail_to_parse = true;
+            }else
+                $err['mail_to'] = "L'adresse mail n'est pas valide !";
+        }else
+            $err['mail_to'] = "L'adresse mail est obligatoire !";
 
-            $mail->setFrom(self::$username, strchr(self::$username, '@', true));
-            $mail->addAddress($mail_to);
+        $subject_parse = false;
+        if (!empty($subject)){
+            $subject_parse = true;
+        }else
+            $err['subject'] = "L'objet est obligatoire !";
 
-            $mail->isHTML(true);
-            $mail->Subject = $subject;
-            $mail->Body = $body;
-            $mail->AltBody = $alt_body;
+        $content_parse = false;
+        if (!empty($content)){
+            $content_parse = true;
+        }else
+            $err['content'] = "L'objet est obligatoire !";
 
-            $mail->send();
-        } catch (Exception $e) {
-            return "Message could not be sent. Mailer Error: ".$mail->ErrorInfo;
+        if ($mail_to_parse && $subject_parse && $content_parse){
+            $mail = new PHPMailer(true);
+
+            try {
+                $mail->SMTPDebug = self::$smtp_debug;
+                if (self::$isSMTP)
+                    $mail->isSMTP();
+                $mail->Host = self::$host;
+                $mail->SMTPAuth = true;
+                $mail->Username = self::$username;
+                $mail->Password = self::$password;
+                $mail->SMTPSecure = self::$SMTP_secure;
+                $mail->Port = self::$port;
+        
+                $mail->setFrom(self::$username, strchr(self::$username, '@', true));
+                $mail->addAddress($mail_to);
+        
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body = $body;
+                $mail->AltBody = $alt_body;
+        
+                $mail->send();
+            } catch (Exception $e) {
+                $err['err'] = "Le mail n'a pas pu être envoyé !";
+            }
         }
 
+        if (!empty($err))
+            return $err;
         return true;
     }
 }
