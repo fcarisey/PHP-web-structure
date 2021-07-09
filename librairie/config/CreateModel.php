@@ -202,7 +202,7 @@ $var = "";
 while($var != "-1"){
     if ($var != "")
         $var_ele[$var] = $type;
-    $var = getUserInput("Nom de la table(-1 pour arrêter): ");
+    $var = getUserInput("Nom de la colonne (-1 pour arrêter): ");
     if ($var == "-1")
         break;
     $type = getUserInput("Type de donnée (int, text, serial)");

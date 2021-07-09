@@ -11,8 +11,8 @@ class ControllerController{
         self::keyExist(static::$database, \Database::$db_array)->request(\Database::ACTION_INSERT, static::$table_name, null, $value);
     }
 
-    public static function UPDATE(array $set, $where, $limit){
-        self::keyExist(static::$database, \Database::$db_array)->request(\Database::ACTION_UPDATE, static::$table_name, null, null, $set, $where, $limit);
+    public static function UPDATE(array $set = null, array $where = null){
+        self::keyExist(static::$database, \Database::$db_array)->request(\Database::ACTION_UPDATE, static::$table_name, null, null, $set, $where);
     }
 
     public static function SELECT($select = \Database::SELECT_ALL, $where = null, $limit = null, $order_by = null){

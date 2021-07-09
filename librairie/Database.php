@@ -8,6 +8,9 @@ class Database{
     public const ACTION_DELETE = 2;
     public const ACTION_UPDATE = 3;
 
+    public const ORDER_ASC = "ASC";
+    public const ORDER_DESC = "DESC";
+
     public const TYPE_PGSQL = "pgsql";
     public const TYPE_MYSQL = "mysql";
 
