@@ -81,13 +81,13 @@ class Database{
         return $this->password;
     }
 
-    function getPDO(){
+    public function getPDO(){
         if ($this->instance == null)
             $this->instance = new \PDO($this->database_type.":host=".$this->host.";port=".$this->port.";dbname=".$this->dbname.";user=".$this->user.";password=".$this->password);
         return $this->instance;
     }
     
-    function request(int $action, string $table, array $select = null, array $value = null, array $set = null, array $where = null, string $limit = null, array $order_by = null){
+    public function request(int $action, string $table, array $select = null, array $value = null, array $set = null, array $where = null, string $limit = null, array $order_by = null){
         if ($this->database_type == self::TYPE_PGSQL)
             $tq = '"';
         else if ($this->database_type == self::TYPE_MYSQL)
@@ -201,7 +201,7 @@ class Database{
         return false;
     }
 
-    static function TryPDO(self $db){
+    public static function TryPDO(self $db){
         return $db->getPDO();
     }
 }
