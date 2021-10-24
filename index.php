@@ -36,8 +36,6 @@ $databases = readDatabaseFile();
 $db_array = [];
 foreach($databases as $db){
     $db_array[$db['name']] = new \Database($db['type'], $db['host'], $db['port'], $db['database'], $db['user'], $db['password']);
-
-    
 }
 
 foreach($db_array as $key => $db){
