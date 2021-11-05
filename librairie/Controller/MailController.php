@@ -25,6 +25,10 @@ class MailController{
     public static function sendMailTo(string $mail_to, string $subject, string $body, string $alt_body){
         $err = [];
 
+        $content = $body;
+        if (empty($content))
+            $content = $alt_body;
+
         $mail_to_parse = false;
         if (!empty($mail_to)){
             if (filter_var($mail_to, FILTER_VALIDATE_EMAIL)){
@@ -44,7 +48,7 @@ class MailController{
         if (!empty($content)){
             $content_parse = true;
         }else
-            $err['content'] = "L'objet est obligatoire !";
+            $err['content'] = "Le contenu est obligatoire !";
 
         if ($mail_to_parse && $subject_parse && $content_parse){
             $mail = new PHPMailer(true);
