@@ -22,7 +22,7 @@ class MailController{
     /** Default value: 465 */
     public static int $port = 465;
 
-    public static function sendMailTo(string $mail_to, string $subject, string $body, string $alt_body, bool $comFrom = false){
+    public static function sendMailTo(string $mail_to, string $subject, string $body, string $alt_body, bool $comFrom = false, string $from = null){
         $err = [];
 
         $content = $body;
@@ -51,8 +51,8 @@ class MailController{
             $err['content'] = "Le contenu est obligatoire !";
 
         if ($comFrom){
-            $body = "De: $mail_to <br><br> $body";
-            $alt_body = "De: $mail_to \n $alt_body";
+            $body = "De: $from <br><br> $body";
+            $alt_body = "De: $from \n $alt_body";
         }
 
         if ($mail_to_parse && $subject_parse && $content_parse){
