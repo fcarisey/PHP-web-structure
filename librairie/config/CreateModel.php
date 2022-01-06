@@ -19,12 +19,11 @@ function createModelFile(string $model_name, array $element, $database_name){
     $construct = "public function __construct(";
     $construct_setter = "\$this";
     $mutator = "";
-    $format = "public static function format(\$data){
-        \$objs = [];
-        if (\$data != NULL)
-        {
-        foreach(\$data as \$d){
-        ";
+    $format = "
+    public static function format(\$data){\n
+        \$objs = [];\n
+        if (\$data != NULL){\n
+            foreach(\$data as \$d){\n";
     $format_new = "";
     foreach($element as $e => $type){
         if ($var_ele != "private ")
@@ -44,17 +43,16 @@ function createModelFile(string $model_name, array $element, $database_name){
 
         $construct_setter .= "->set$a(\$$e)";
 
-        $mutator .= "
-        public function set$a(\$$e){
-            \$this->$e = \$$e;
-            return \$this;
-        }
-        public function get$a(){
-            return \$this->$e;
+        $mutator = "
+        public function set$a(\$$e){\n
+            \$this->$e = \$$e;\n
+            return \$this;\n
+        }\n
+        public function get$a(){\n
+            return \$this->$e;\n
         }\n";
 
-        $format .= "
-            \$$e = \Controller\ControllerController::keyExist('$e', \$d);";
+        $format .= "\$$e = \Controller\ControllerController::keyExist('$e', \$d);\n";
 
         if ($format_new != "")
             $format_new .= ",";
@@ -63,17 +61,17 @@ function createModelFile(string $model_name, array $element, $database_name){
     $var_ele .= ";";
     $construct_setter .= ";";
 
-    $construct .= "){
+    $construct .= "){\n
         $construct_setter
-    }";
+    }\n";
     $a = strtolower($model_name);
     $format .= "
-            \$$a = new self($format_new);
-            array_push(\$objs, \$$a);
-        }
-        }
-        return (empty(\$objs)) ? null : \$objs; 
-    }";
+            \$$a = new self($format_new);\n
+            array_push(\$objs, \$$a);\n
+            }\n
+        }\n
+        return (empty(\$objs)) ? null : \$objs;\n
+    }\n";
 
     $file = fopen("../Model/$model_name.php", 'w');
     fwrite($file, "<?php
