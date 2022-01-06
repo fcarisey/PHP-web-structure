@@ -17,13 +17,13 @@ function getUserInput(string $message){
 function createModelFile(string $model_name, array $element, $database_name){
     $var_ele = "private ";
     $construct = "public function __construct(";
-    $construct_setter = "\$this";
+    $construct_setter = "   \$this";
     $mutator = "";
     $format = "
-    public static function format(\$data){\n
-        \$objs = [];\n
-        if (\$data != NULL){\n
-            foreach(\$data as \$d){\n";
+        public static function format(\$data){\n
+            \$objs = [];\n
+            if (\$data != NULL){\n
+                foreach(\$data as \$d){\n";
     $format_new = "";
     foreach($element as $e => $type){
         if ($var_ele != "private ")
@@ -43,16 +43,17 @@ function createModelFile(string $model_name, array $element, $database_name){
 
         $construct_setter .= "->set$a(\$$e)";
 
-        $mutator = "
-        public function set$a(\$$e){\n
-            \$this->$e = \$$e;\n
-            return \$this;\n
-        }\n
-        public function get$a(){\n
-            return \$this->$e;\n
+        $mutator .= "
+        public function set$a(\$$e){
+            \$this->$e = \$$e;
+            return \$this;
+        }
+        public function get$a(){
+            return \$this->$e;
         }\n";
 
-        $format .= "\$$e = \Controller\ControllerController::keyExist('$e', \$d);\n";
+        $format .= "
+                    \$$e = \Controller\ControllerController::keyExist('$e', \$d);";
 
         if ($format_new != "")
             $format_new .= ",";
@@ -61,23 +62,23 @@ function createModelFile(string $model_name, array $element, $database_name){
     $var_ele .= ";";
     $construct_setter .= ";";
 
-    $construct .= "){\n
+    $construct .= "){
         $construct_setter
-    }\n";
+        }\n";
     $a = strtolower($model_name);
     $format .= "
-            \$$a = new self($format_new);\n
-            array_push(\$objs, \$$a);\n
-            }\n
-        }\n
-        return (empty(\$objs)) ? null : \$objs;\n
-    }\n";
+                    \$$a = new self($format_new);\n
+                    array_push(\$objs, \$$a);
+                }
+            }
+            return (empty(\$objs)) ? null : \$objs;
+        }";
 
     $file = fopen("../Model/$model_name.php", 'w');
     fwrite($file, "<?php
     namespace Model;
     Class $model_name{
-        $var_ele
+        $var_ele\n
         $construct
         $mutator
         $format
@@ -95,7 +96,7 @@ function createControllerFile(string $model_name, $database_name){
     Class {$model_name}Controller extends ControllerController{
         protected static \$table_name = \"$model_name\";
         protected static \$model_class = \Model\\$model_name::class;
-        protected static \$database = $database_name;
+        protected static \$database = \"$database_name\";
     }");
     fclose($file);
 }
